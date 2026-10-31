@@ -1,0 +1,4 @@
+# Copia este archivo a .dev.vars para `npm run dev` (no se sube a git).
+# En producción: Cloudflare → Workers → aldia → Settings → Variables and Secrets → ADMIN_TOKEN (secret).
+# Token largo y aleatorio para crear invitaciones de familia y publicar colegios y clases.
+ADMIN_TOKEN=
