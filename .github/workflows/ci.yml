@@ -1,0 +1,24 @@
+# Pruebas en cada push y PR (con datos ficticios y una D1 local; no necesita Cloudflare).
+# El despliegue lo hace Cloudflare Workers Builds al hacer push a main.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Pruebas (lógica, familia, migración y API)
+        run: npm test
+      - name: Comprobar que no se suben datos reales
+        run: |
+          test ! -e datos || { echo "La carpeta datos/ no debe subirse"; exit 1; }
+          test ! -e .dev.vars || { echo ".dev.vars no debe subirse"; exit 1; }

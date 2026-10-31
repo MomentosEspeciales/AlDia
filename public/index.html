@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>alDia</title>
+<meta name="description" content="alDia: la agenda de tus peques, compartida con su clase">
+<meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191e2b" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="alDia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="heart" viewBox="0 0 24 24"><path d="M12 21.2c-.3 0-.6-.1-.8-.3C6.1 16.6 2 13.1 2 8.6 2 5.5 4.4 3 7.4 3c1.8 0 3.5.9 4.6 2.4C13.1 3.9 14.8 3 16.6 3 19.6 3 22 5.5 22 8.6c0 4.5-4.1 8-9.2 12.3-.2.2-.5.3-.8.3z"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 7h12l1 13H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></symbol>
+    <symbol id="i-school" viewBox="0 0 24 24"><path d="M3 10l9-5 9 5-9 5-9-5z"/><path d="M7 12v4c0 1.5 2.2 3 5 3s5-1.5 5-3v-4"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" id="skip-agenda" href="#view" hidden>Ir a la agenda</a>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <div class="hearts" aria-hidden="true"><svg class="h1"><use href="#heart"/></svg><svg class="h2"><use href="#heart"/></svg></div>
+      <h1><span class="k">al</span><span class="b">Dia</span></h1>
+      <span class="brand-note">Un poquito de orden.<br>Mucho de familia.</span>
+    </div>
+    <div class="fecha" id="fecha"></div>
+  </header>
+
+  <!-- Entrada: sin sesión en este móvil -->
+  <form class="lock panel" id="bienvenida" hidden>
+    <div class="big-hearts" aria-hidden="true"><svg class="h1"><use href="#heart"/></svg><svg class="h2"><use href="#heart"/></svg></div>
+    <span class="eyebrow" id="bv-eyebrow">VUESTRO RINCÓN FAMILIAR</span>
+    <h2 id="bv-titulo">Hola, familia <span aria-hidden="true">☀</span></h2>
+    <p class="note" id="bv-texto"></p>
+    <label for="bv-movil" id="bv-movil-label" hidden>¿Cómo llamamos a este móvil?</label>
+    <input id="bv-movil" maxlength="60" placeholder="Por ejemplo: Móvil de mamá" autocomplete="off" hidden>
+    <p class="err" id="bv-err" role="alert" hidden></p>
+    <button class="btn" type="submit" id="bv-boton" hidden>Empezar <span aria-hidden="true">→</span></button>
+    <p class="lock-privacy">Los datos de vuestra familia se cifran en el móvil · El servidor no puede leerlos</p>
+  </form>
+
+  <div id="app" class="wrap" hidden>
+    <section class="welcome" aria-labelledby="welcome-title">
+      <div><p class="eyebrow">LA VIDA EN FAMILIA, UN POCO MÁS FÁCIL</p><h2 id="welcome-title">Pequeños planes,<br>grandes días<span>.</span></h2><p>El día de los peques, de un vistazo.</p></div>
+      <div class="family-art" aria-hidden="true"><span class="art-sun">☀</span><span class="art-heart">♥</span><span class="art-house">⌂</span><span class="art-spark">✦</span></div>
+    </section>
+    <section class="panel empezar" id="empezar" hidden>
+      <p><b>Primero, vuestros peques.</b></p>
+      <p class="note">Añade a cada uno con su clase y verás su agenda del cole. Lo que apuntéis aquí solo lo veréis en vuestra familia.</p>
+      <button type="button" class="btn" id="empezar-nino">＋ Añadir un peque</button>
+    </section>
+    <section class="ingest" aria-label="Añadir información">
+      <button type="button" class="btn add-button" id="nueva">＋ Añadir a la agenda</button>
+      <p class="section-note">Cumpleaños, tareas, extraescolares y planes.</p>
+      <p id="agenda-status" role="status"></p>
+      <details class="annotation-settings">
+        <summary>Nuestras anotaciones <span id="entry-count" class="count"></span><span class="chevron" aria-hidden="true">⌄</span></summary>
+        <ul id="entries" class="entries"></ul>
+      </details>
+    </section>
+    <nav class="switch" aria-label="Elegir día">
+      <span class="thumb" id="thumb"></span>
+      <button type="button" aria-pressed="true" data-view="hoy">Hoy</button>
+      <button type="button" aria-pressed="false" data-view="manana">Mañana</button>
+      <button type="button" aria-pressed="false" data-view="semana">Semana</button>
+    </nav>
+    <main id="view" class="kids" tabindex="-1" aria-live="polite"></main>
+    <section class="task-section" aria-labelledby="tasks-title">
+      <div class="section-head"><h2 id="tasks-title"><svg aria-hidden="true"><use href="#i-list"/></svg>Por preparar</h2><span class="count" id="task-count" aria-live="polite"></span></div>
+      <p class="section-note">Una cosa menos en la cabeza. Lo que marquéis lo veréis en todos vuestros móviles.</p>
+      <ul class="tasks" id="tasks"></ul>
+    </section>
+    <details class="notification-settings" id="familia-ajustes">
+      <summary><span class="notification-icon" aria-hidden="true"><svg><use href="#heart"/></svg></span><span><b>Nuestra familia</b><small>Peques, móviles e invitaciones</small></span><span class="chevron" aria-hidden="true">⌄</span></summary>
+      <div class="panel">
+        <h3 class="ajustes-titulo">Peques</h3>
+        <ul id="ninos" class="entries"></ul>
+        <button type="button" class="btn ghost" id="nuevo-nino">＋ Añadir un peque</button>
+        <h3 class="ajustes-titulo">Invitar a otro adulto</h3>
+        <p class="note">Crea un enlace para que tu pareja (u otra persona de la familia) entre desde su móvil. Sirve una sola vez y caduca en 7 días. Contiene la llave de vuestros datos: envíalo solo a quien quieras dar acceso.</p>
+        <button type="button" class="btn ghost" id="invitar">Crear enlace de invitación</button>
+        <div id="invitacion" hidden><textarea id="inv-enlace" readonly></textarea><div class="btns"><button class="btn ghost" type="button" id="inv-compartir">Compartir</button><button class="btn ghost" type="button" id="inv-copiar">Copiar</button></div><p class="note" id="inv-estado" aria-live="polite"></p></div>
+        <h3 class="ajustes-titulo">Móviles con acceso</h3>
+        <ul id="dispositivos" class="entries"></ul>
+        <h3 class="ajustes-titulo">Copia de seguridad</h3>
+        <p class="note">Descarga una copia cifrada de vuestros datos o importa datos de KiBi.</p>
+        <div class="btns"><button class="btn ghost" type="button" id="exportar">Descargar copia</button><label class="btn ghost file-label">Importar…<input type="file" id="importar" accept=".kibi,.json,.aldia,application/json"></label></div>
+        <h3 class="ajustes-titulo">Este móvil</h3>
+        <p class="note" id="instalar-nota"></p>
+        <div class="btns"><button class="btn ghost" type="button" id="instalar" hidden>Instalar alDia</button><button class="btn ghost" type="button" id="salir">Quitar alDia de este móvil</button></div>
+        <h3 class="ajustes-titulo">Darse de baja</h3>
+        <p class="note">Borra vuestra familia del servidor (peques, anotaciones y móviles). No se puede deshacer.</p>
+        <button type="button" class="btn ghost peligro" id="baja">Borrar nuestra familia</button>
+        <p id="familia-status" class="note" role="status"></p>
+      </div>
+    </details>
+  </div>
+
+  <p class="loading" id="loading">Cargando…</p>
+  <footer id="foot"></footer>
+</div>
+
+<dialog id="editor" aria-labelledby="editor-title">
+  <form id="entry-form" class="entry-form">
+    <div class="section-head"><h2 id="editor-title">Añadir a la agenda</h2><button type="button" id="cerrar-editor" class="close-editor" aria-label="Cerrar formulario">×</button></div>
+    <label>¿Qué quieres añadir?<select id="entry-type"><option value="cumple">🎂 Cumpleaños</option><option value="tarea">✅ Tarea</option><option value="extra">🏊 Extraescolar</option><option value="evento">🎒 Evento o plan</option></select></label>
+    <fieldset><legend>¿Para quién?</legend><div id="entry-kids" class="choice-list"></div></fieldset>
+    <label><span id="entry-title-label">Nombre de quien cumple años</span><input id="entry-title" maxlength="160" required></label>
+    <label><span id="entry-date-label">Fecha</span><input type="date" id="entry-date" required></label>
+    <label id="entry-time-wrap">Hora (opcional)<input type="time" id="entry-time"></label>
+    <div id="entry-extra" hidden>
+      <fieldset><legend>¿Qué días se repite?</legend><div class="choice-list weekdays"><label><input type="checkbox" name="entry-day" value="1">Lunes</label><label><input type="checkbox" name="entry-day" value="2">Martes</label><label><input type="checkbox" name="entry-day" value="3">Miércoles</label><label><input type="checkbox" name="entry-day" value="4">Jueves</label><label><input type="checkbox" name="entry-day" value="5">Viernes</label><label><input type="checkbox" name="entry-day" value="6">Sábado</label><label><input type="checkbox" name="entry-day" value="0">Domingo</label></div></fieldset>
+      <label>Hasta (opcional)<input type="date" id="entry-until"></label>
+      <label class="choice"><input type="checkbox" id="entry-school">Solo los días con cole</label>
+    </div>
+    <label id="entry-annual-wrap" class="choice"><input type="checkbox" id="entry-annual" checked>Repetir cada año</label>
+    <label id="entry-place-wrap">Lugar (opcional)<input id="entry-place" maxlength="240"></label>
+    <label id="entry-bring-wrap">Qué hay que llevar (opcional)<input id="entry-bring" maxlength="500"></label>
+    <label>Notas (opcional)<textarea id="entry-notes" maxlength="2000" placeholder="Autorización, regalo, pago, recogida…"></textarea></label>
+    <p class="err" id="entry-error" role="alert" hidden></p>
+    <button type="submit" id="entry-save" class="btn">Guardar</button>
+  </form>
+</dialog>
+<dialog id="nino-editor" aria-labelledby="nino-titulo">
+  <form id="nino-form" class="entry-form">
+    <div class="section-head"><h2 id="nino-titulo">Añadir un peque</h2><button type="button" id="cerrar-nino" class="close-editor" aria-label="Cerrar formulario">×</button></div>
+    <label>Nombre<input id="nino-nombre" maxlength="40" required autocomplete="off"></label>
+    <label>Color<select id="nino-color"><option value="azul">Azul</option><option value="rosa">Rosa</option><option value="verde">Verde</option><option value="naranja">Naranja</option><option value="lila">Lila</option></select></label>
+    <label>Colegio y clase<select id="nino-clase"><option value="">Sin clase (no va al cole o no está en alDia)</option></select></label>
+    <p class="note" id="nino-clase-nota">Al elegir su clase, veréis los festivos, el horario y las circulares de esa clase.</p>
+    <label>Curso o nota (opcional)<input id="nino-curso" maxlength="60" placeholder="Por ejemplo: 1º de Primaria"></label>
+    <p class="err" id="nino-error" role="alert" hidden></p>
+    <button type="submit" class="btn" id="nino-guardar">Guardar</button>
+  </form>
+</dialog>
+<script src="logica.js?v=1"></script>
+<script src="cripto.js?v=1"></script>
+<script src="agenda.js?v=1"></script>
+<script src="almacen.js?v=1"></script>
+<script src="app.js?v=1"></script>
+</body>
+</html>

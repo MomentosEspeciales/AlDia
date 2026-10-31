@@ -1,0 +1,28 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "aldia",
+	"main": "src/worker.js",
+	"compatibility_date": "2026-07-14",
+	"compatibility_flags": ["global_fetch_strictly_public"],
+	// Sin esto, cada despliegue (Workers Builds, en cada push a main) borra las variables
+	// de texto creadas en el panel del Worker. Los secretos (ADMIN_TOKEN) no se borran nunca.
+	"keep_vars": true,
+	// La app (public/) la sirve Cloudflare directamente; el Worker solo atiende /api/*.
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS",
+		"run_worker_first": ["/api/*"]
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "aldia",
+			// Id de la base D1 «aldia» (Cloudflare → Storage & Databases → D1). No es secreto.
+			"database_id": "PENDIENTE-CREAR-D1",
+			"migrations_dir": "migrations"
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
