@@ -1,0 +1,11 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+# Datos reales que nunca se suben (migración desde KiBi, capas descifradas…)
+datos/
+*.log
+.DS_Store
